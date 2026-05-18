@@ -1,0 +1,277 @@
+ACTIVIDAD 9
+BASES DE DATOS ORIENTADAS A GRAFOS EN NEO4J
+
+Estudiante:
+Juan Pablo Paredes Gomez
+
+Código:
+2248797
+
+------------------------------------------------------------
+
+DESCRIPCIÓN DEL PROYECTO
+
+El presente proyecto consiste en la implementación de una base de datos orientada a grafos utilizando Neo4j y el lenguaje Cypher. El sistema modela un entorno turístico inteligente mediante nodos y relaciones que representan usuarios, lugares, ciudades, eventos, alojamientos e intereses.
+
+Para el desarrollo del modelo se construyó un conjunto de datos con múltiples registros por cada componente de la base de datos, permitiendo la realización de consultas complejas y sistemas de recomendación basados en afinidades, intereses, historial de visitas y conexiones entre usuarios.
+
+El objetivo principal es comprender el funcionamiento de las bases de datos orientadas a grafos y aplicar técnicas de modelado y análisis utilizando consultas Cypher.
+------------------------------------------------------------
+
+Ejemplos de nodos creados:
+
+Usuarios:
+- Juan Pérez
+- Maria Lopez
+- Carlos Ruiz
+- Ana Torres
+- Luis Gomez
+- Sofia Martinez
+- Pedro Diaz
+- Valentina Rojas
+- Camilo Herrera
+- Laura Ramirez
+- Andres Castro
+- Natalia Mora
+- Diego Fuentes
+- Paula Jimenez
+- Fernando Silva
+
+Ciudades:
+- Cali
+- Bogota
+- Medellin
+- Cartagena
+- Barranquilla
+- Santa Marta
+- Pereira
+- Manizales
+- Bucaramanga
+- Pasto
+- Armenia
+- Cucuta
+- Villavicencio
+- Monteria
+- Popayan
+
+Lugares:
+- Museo La Tertulia
+- Restaurante Gourmet
+- Parque del Perro
+- Zoologico de Cali
+- Cristo Rey
+- Plazoleta Jairo Varela
+- Parque Arvi
+- Jardin Botanico
+- Museo del Oro
+- Centro Historico
+- Cafe Central
+- Playa Blanca
+- Acuario Marino
+- Parque Nacional
+- Teatro Municipal
+
+Eventos:
+- Festival Petronio
+- Feria de Cali
+- Festival Vallenato
+- Comic Con
+- Feria del Libro
+- Festival de Jazz
+- Carnaval de Barranquilla
+- Festival Gastronomico
+- Concierto Internacional
+- Festival Cultural
+- Maraton Ciudad
+- Festival del Café
+- Encuentro Tecnologico
+- Festival de Cine
+- Expo Turismo
+
+Alojamientos:
+- Hotel Pacific
+- Hotel Royal
+- Hostal Central
+- Hotel Sunset
+- Hotel Paradise
+- Hostal Travel
+- Hotel Elite
+- Hotel Luxury
+- Hostal Urbano
+- Hotel Green
+- Hotel Imperial
+- Hotel Colonial
+- Hostal Explorer
+- Hotel Ocean
+- Hotel Plaza
+
+Intereses:
+- #Gourmet
+- #Arte
+- #Musica
+- #Naturaleza
+- #Historia
+- #Tecnologia
+- #Playa
+- #Aventura
+- #Cultura
+- #Deportes
+- #Fotografia
+- #Viajes
+- #Ecoturismo
+- #Arquitectura
+- #Gastronomia
+------------------------------------------------------------
+
+CONSULTA 1
+
+Objetivo:
+Identificar los intereses que más definen los lugares visitados por un usuario específico.
+
+Código:
+
+MATCH (u:Usuario {nombre:'Juan Pérez'})-[:VISITÓ]->(l:Lugar)
+MATCH (l)-[:DEFINE_ESTILO]->(i:Interes)
+RETURN i.nombre AS interes, COUNT(i) AS cantidad
+ORDER BY cantidad DESC
+
+------------------------------------------------------------
+
+CONSULTA 2
+
+Objetivo:
+Consultar los lugares visitados y favoritos de un turista en una ciudad específica.
+
+Código:
+
+MATCH (u:Usuario {nombre:'Juan Pérez'})-[v:VISITÓ]->(l:Lugar)
+MATCH (l)-[:SITUADO_EN]->(c:Ciudad {nombre:'Cali'})
+RETURN l.nombre AS lugar,
+v.es_favorito AS favorito,
+c.nombre AS ciudad
+
+------------------------------------------------------------
+
+CONSULTA 3
+
+Objetivo:
+Identificar los lugares más populares de una ciudad.
+
+Código:
+
+MATCH (u:Usuario)-[:VISITÓ]->(l:Lugar)
+MATCH (l)-[:SITUADO_EN]->(c:Ciudad {nombre:'Cali'})
+RETURN l.nombre AS lugar,
+COUNT(u) AS total_visitas
+ORDER BY total_visitas DESC
+
+------------------------------------------------------------
+
+CONSULTA 4
+
+Objetivo:
+Consultar los alojamientos con presencia en más de tres ciudades.
+
+Código:
+
+MATCH (a:Alojamiento)-[:SITUADO_EN]->(c:Ciudad)
+
+WITH a, COUNT(c) AS total_ciudades
+
+WHERE total_ciudades > 3
+
+RETURN a.nombre AS alojamiento,
+total_ciudades
+
+------------------------------------------------------------
+
+CONSULTA 5
+
+Objetivo:
+Recomendar lugares según intereses de sitios visitados previamente.
+
+Código:
+
+MATCH (u:Usuario {nombre:'Juan Pérez'})-[:VISITÓ]->(l1:Lugar)
+MATCH (l1)-[:DEFINE_ESTILO]->(i:Interes)
+MATCH (l2:Lugar)-[:DEFINE_ESTILO]->(i)
+
+WHERE NOT (u)-[:VISITÓ]->(l2)
+AND l1 <> l2
+AND i.nombre = '#Gourmet'
+
+RETURN DISTINCT
+l2.nombre AS lugar_recomendado,
+i.nombre AS interes
+
+------------------------------------------------------------
+
+CONSULTA 6
+
+Objetivo:
+Recomendar eventos según afinidades del usuario.
+
+Código:
+
+MATCH (u:Usuario {nombre:'Juan Pérez'})-[a:AFÍN_A]->(i:Interes)
+MATCH (e:Evento)-[:PROMUEVE]->(i)
+
+WHERE e.sold_out = false
+AND i.nombre = '#Gourmet'
+
+RETURN
+e.nombre AS evento,
+i.nombre AS interes,
+a.nivel_afinidad AS afinidad
+
+ORDER BY afinidad DESC
+
+------------------------------------------------------------
+
+CONSULTA 7
+
+Objetivo:
+Recomendar alojamientos según experiencias de amigos.
+
+Código:
+
+MATCH (u:Usuario {nombre:'Juan Pérez'})-[:CONOCE_A]->(amigo:Usuario)
+MATCH (amigo)-[:SE_HOSPEDÓ]->(a:Alojamiento)
+MATCH (a)-[:SITUADO_EN]->(c:Ciudad {nombre:'Cali'})
+
+WHERE NOT (u)-[:SE_HOSPEDÓ]->(a)
+
+RETURN DISTINCT
+a.nombre AS alojamiento,
+c.nombre AS ciudad
+
+------------------------------------------------------------
+
+CONCLUSIONES
+
+El desarrollo de esta actividad permitió comprender el funcionamiento de las bases de datos orientadas a grafos mediante Neo4j y el lenguaje Cypher. Se logró modelar relaciones complejas entre entidades turísticas y construir consultas avanzadas para sistemas de recomendación basados en intereses, afinidades y conexiones entre usuarios.
+
+Además, se evidenció la importancia de las relaciones en los grafos y cómo estas permiten obtener información contextual de manera más eficiente en comparación con modelos relacionales tradicionales.
+
+------------------------------------------------------------
+
+Repositorio GitHub:
+https://github.com/JuanPabloParedes/Actividad9Neo4j-20-mayo.git
+------------------------------------------------------------
+
+ANEXOS
+
+- Capturas de ejecución de las consultas realizadas en Neo4j.
+- Archivos CSV utilizados para la carga de nodos y relaciones.
+- Repositorio GitHub con acceso a los archivos del proyecto.
+
+Cantidad de registros implementados:
+
+Usuarios: 15
+Ciudades: 15
+Lugares: 15
+Eventos: 15
+Alojamientos: 15
+Intereses: 15
+
+------------------------------------------------------------Fin del documento.
