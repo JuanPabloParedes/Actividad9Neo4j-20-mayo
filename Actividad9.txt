@@ -17,6 +17,18 @@ Para el desarrollo del modelo se construyó un conjunto de datos con múltiples 
 
 El objetivo principal es comprender el funcionamiento de las bases de datos orientadas a grafos y aplicar técnicas de modelado y análisis utilizando consultas Cypher.
 ------------------------------------------------------------
+------------------------------------------------------------
+
+NODOS UTILIZADOS
+
+- Usuario
+- Lugar
+- Ciudad
+- Evento
+- Alojamiento
+- Interes
+
+------------------------------------------------------------
 
 Ejemplos de nodos creados:
 
@@ -121,6 +133,35 @@ Intereses:
 - #Ecoturismo
 - #Arquitectura
 - #Gastronomia
+------------------------------------------------------------
+------------------------------------------------------------
+
+RELACIONES UTILIZADAS
+
+- VISITÓ
+- DEFINE_ESTILO
+- SITUADO_EN
+- AFÍN_A
+- PROMUEVE
+- CONOCE_A
+- SE_HOSPEDÓ
+
+Ejemplos:
+
+(Usuario)-[:VISITÓ]->(Lugar)
+
+(Lugar)-[:DEFINE_ESTILO]->(Interes)
+
+(Evento)-[:PROMUEVE]->(Interes)
+
+(Usuario)-[:AFÍN_A]->(Interes)
+
+(Usuario)-[:CONOCE_A]->(Usuario)
+
+(Usuario)-[:SE_HOSPEDÓ]->(Alojamiento)
+
+(Alojamiento)-[:SITUADO_EN]->(Ciudad)
+
 ------------------------------------------------------------
 
 CONSULTA 1
@@ -274,4 +315,6 @@ Eventos: 15
 Alojamientos: 15
 Intereses: 15
 
-------------------------------------------------------------Fin del documento.
+------------------------------------------------------------
+
+Fin del documento.
