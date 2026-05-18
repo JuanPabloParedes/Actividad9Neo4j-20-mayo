@@ -1,0 +1,17 @@
+﻿origen;relacion;destino
+Juan Pérez;VISITÓ;Museo La Tertulia
+Museo La Tertulia;DEFINE_ESTILO;#Gourmet
+Restaurante Gourmet;DEFINE_ESTILO;#Gourmet
+Festival Petronio;PROMUEVE;#Gourmet
+Juan Pérez;AFÍN_A;#Gourmet
+Juan Pérez;CONOCE_A;Maria Lopez
+Maria Lopez;SE_HOSPEDÓ;Hotel Pacific
+Hotel Pacific;SITUADO_EN;Cali
+Hotel Pacific;SITUADO_EN;Bogota
+Hotel Pacific;SITUADO_EN;Medellin
+Hotel Pacific;SITUADO_EN;Cartagena
+Carlos Ruiz;VISITÓ;Parque del Perro
+Ana Torres;VISITÓ;Cristo Rey
+Luis Gomez;AFÍN_A;#Historia
+Sofia Martinez;AFÍN_A;#Tecnologia
+Pedro Diaz;VISITÓ;Playa Blanca

@@ -1,0 +1,16 @@
+﻿id;nombre;tipo;calificacion;avg;popularidad_actual
+1;Museo La Tertulia;Museo;4;8;85
+2;Restaurante Gourmet;Restaurante;4;9;90
+3;Parque del Perro;Parque;4;6;75
+4;Zoologico de Cali;Zoologico;4;7;88
+5;Cristo Rey;Monumento;4;8;92
+6;Plazoleta Jairo Varela;Plaza;4;4;65
+7;Parque Arvi;Parque;4;8;87
+8;Jardin Botanico;Jardin;4;7;80
+9;Museo del Oro;Museo;4;9;95
+10;Centro Historico;Historico;4;8;90
+11;Cafe Central;Cafe;4;3;60
+12;Playa Blanca;Playa;4;9;96
+13;Acuario Marino;Acuario;4;5;72
+14;Parque Nacional;Parque;4;8;88
+15;Teatro Municipal;Teatro;4;7;77
